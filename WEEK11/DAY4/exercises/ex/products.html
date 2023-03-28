@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Our Products</title>
+  </head>
+  <body>
+    <h1>Our Products</h1>
+    <ul id="product-list"></ul>
+
+    <script>
+      fetch('product_db.json')
+        .then(response => response.json())
+        .then(products => {
+          const productList = document.querySelector('#product-list');
+
+          products.forEach(product => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.textContent = product.Name;
+            link.href = `/product/${product.ProductId}`;
+            listItem.appendChild(link);
+            productList.appendChild(listItem);
+          });
+        });
+    </script>
+  </body>
+</html>
