@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Guess a Number between 1 and 100</title>
+</head>
+<body>
+	<h1>Guess a Number between 1 and 100</h1>
+	<p>Random number: {{ random_number }}</p>
+	{% if success_message %}
+		<p>{{ success_message }}</p>
+	{% endif %}
+</body>
+</html>
