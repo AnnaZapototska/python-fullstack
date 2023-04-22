@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+{% extends "partials/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Films</h3>
+      {% for film in films %}
+      <div class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ film.title }}</h5>
+          <p class="card-text">Release Date: {{ film.release_date.strftime('%B %d, %Y') }}</p>
+          <p class="card-text">Created in Country: {{ film.created_in_country.name }}</p>
+          <p class="card-text">Available in Countries:</p>
+          <ul class="list-group">
+            {% for country in film.available_in_countries %}
+            <li class="list-group-item">{{ country.name }}</li>
+            {% endfor %}
+          </ul>
+          <p class="card-text">Categories:</p>
+          <ul class="list-group">
+            {% for category in film.categories %}
+            <li class="list-group-item">{{ category.name }}</li>
+            {% endfor %}
+          </ul>
+          <p class="card-text">Directors:</p>
+          <ul class="list-group">
+            {% for director in film.directors %}
+            <li class="list-group-item">{{ director.first_name }} {{ director.last_name }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-6">
+      <h3>Directors</h3>
+      {% for director in directors %}
+      <div class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ director.first_name }} {{ director.last_name }}</h5>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+</body>
+</html>
