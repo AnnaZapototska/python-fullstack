@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	<h2>Login</h2>
+	<form method="post" action="{{ url_for('login') }}">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name"><br><br>
+
+		<label for="city">City:</label>
+		<input type="text" id="city" name="city"><br><br>
+
+		<input type="submit" value="Login">
+	</form>
+</body>
+</html>

@@ -1,9 +1,12 @@
+import json
 import os
-
+import random
 import flask_migrate
 import flask_sqlalchemy
-from flask import Flask
+from flask import Flask, redirect, render_template, request, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
+from app.forms import LoginForm
+from app.models import User
 
 app = Flask(__name__)
 
@@ -22,22 +25,43 @@ migrate = flask_migrate.Migrate(app, db)
 
 from app import routes, models
 
-import json
+
+def generate_status():
+    # Add random status to each user
+    users = User.query.all()
+    for user in users:
+        user.status = random.choice(['admin', 'client'])
+    db.session.commit()
 
 
-def populate():
-    with app.app_context():
-        from app.models import User
-
-        with open('app/users.json') as f:
-            users = json.load(f)
-
-        for user in users:
-            new_user = User(name=user['name'], street=user['address']['street'], city=user['address']['city'],
-                            zipcode=user['address']['zipcode'])
-            db.session.add(new_user)
-
-        db.session.commit()
+# Call generate_status function to add random statuses to users in the database
+generate_status()
 
 
-populate()
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(name=form.name.data, city=form.city.data).first()
+        if user is None:
+            flash('User not found, please sign up.', 'error')
+            return redirect(url_for('signup'))
+        elif user.status == 'admin':
+            return redirect(url_for('admin_index'))
+        else:
+            return redirect(url_for('client_index'))
+    return render_template('login.html', form=form)
+
+
+@app.route('/admin_index')
+def admin_index():
+    # Only show users with 'client' status to admin
+    users = User.query.filter_by(status='client').all()
+    return render_template('admin_index.html', users=users)
+
+
+@app.route('/client_index')
+def client_index():
+    # Show user's own details to client
+    user = User.query.filter_by(name=request.form['name'], city=request.form['city']).first()
+    return render_template('client_index.html', user=user)
