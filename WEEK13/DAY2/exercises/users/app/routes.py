@@ -21,7 +21,7 @@ def login():
             flash('You are now logged in!', 'success')
             if app.config['PART_III']:
                 return redirect(url_for('add_user'))
-            else:
+            else: # this else is redundant, you can remove it because one line before you are doing return
                 return redirect(url_for('index'))
         else:
             flash('Invalid name or address city. Please sign up!', 'danger')
