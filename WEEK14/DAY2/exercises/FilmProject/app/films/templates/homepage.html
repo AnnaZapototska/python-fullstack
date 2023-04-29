@@ -1,0 +1,24 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+
+<h1>Welcome to FilmProject</h1>
+<a href="{{ url_for('films.add_film') }}">Add Film</a> | <a href="{{ url_for('films.add_director') }}">Add Director</a>
+<div class="card-deck">
+{% for film in films %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ film.title }}</h5>
+      <p class="card-text">
+      {{ film.release_date }}<br>
+      {% if film.directors %}
+        {% for director in film.directors %}
+          Director: {{ director.first_name }} {{ director.last_name }}<br>
+        {% endfor %}
+      {% endif %}
+      </p>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}
