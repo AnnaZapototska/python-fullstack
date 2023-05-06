@@ -28,7 +28,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
 
-    film_categories = db.relationship('Film', secondary=films_categories, backref='film_categories', lazy=True)
+    films = db.relationship('Film', secondary=films_categories, backref='categories', lazy=True)
 
 
 class Director(db.Model):
@@ -51,4 +51,8 @@ class Film(db.Model):
 
     film_categories = db.relationship('Category', secondary=films_categories, backref='categories', lazy=True)
 
-    directors = db.relationship('Director', secondary=films_directors, backref='films', lazy=True)
+    film_directors = db.relationship('Director', secondary=films_directors, backref='films', lazy=True)
+
+
+
+

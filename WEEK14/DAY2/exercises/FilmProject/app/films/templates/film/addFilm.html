@@ -2,10 +2,24 @@
 
 {% block content %}
 <h1>Add Film</h1>
-<form method="POST">
+<form method="POST" action="{{ url_for('films.add_film') }}">
   {{ form.csrf_token }}
   {{ form.title.label }} {{ form.title }}<br>
   {{ form.release_date.label }} {{ form.release_date }}<br>
+  <label for="category">Category:</label>
+  <select name="category" id="category">
+    {% for category in categories %}
+      <option value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <label for="country">Country:</label>
+  <select name="country" id="country">
+    {% for country in countries %}
+      <option value="{{ country.id }}">{{ country.name }}</option>
+    {% endfor %}
+  </select>
+  <br>
   <input type="submit" value="Submit">
 </form>
 {% endblock %}
